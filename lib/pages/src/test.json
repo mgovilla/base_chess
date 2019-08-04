@@ -1,0 +1,11 @@
+[
+    {
+        "tournament": {
+            "name": "BlueTourney",
+            "tournament_type": "single elimination",
+            "hold_third_place_match": "true",
+            "participants_count": "4",
+            "game_name": "Chess"
+        }
+    }
+]
