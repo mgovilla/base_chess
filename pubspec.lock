@@ -23,7 +23,7 @@ packages:
     source: hosted
     version: "1.1.2"
   chess:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: chess
       url: "https://pub.dartlang.org"
@@ -83,13 +83,6 @@ packages:
     description: flutter
     source: sdk
     version: "0.0.0"
-  flutter_chess_board:
-    dependency: "direct main"
-    description:
-      name: flutter_chess_board
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "0.2.3"
   flutter_statusbar_manager:
     dependency: "direct main"
     description:
@@ -165,6 +158,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "0.22.1"
+  scoped_model:
+    dependency: "direct main"
+    description:
+      name: scoped_model
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "1.0.1"
   sky_engine:
     dependency: transitive
     description: flutter

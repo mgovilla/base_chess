@@ -1,9 +1,30 @@
 import 'package:base_chess/auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_chess_board/flutter_chess_board.dart';
+import 'flutter_chess_board.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'dart:math';
+
+// Idea 1: 
+// Use ChessBoardController to make each move; wrap the buildChessBoard
+// inside of a StreamBuilder:
+// if the change was the opponents move, use the controller to makeMove and enableUserMoves
+//  and then setState
+// else confirm that the move was what the user sent and disable UserMoves
+// 
+
+// onMove: (function inside the chessboard) setState() {
+//    send the move to firebase through transaction
+//    enableUserMoves = false;
+// }
+
+// Idea 2:
+// Rebuild the chessboard every single move, and set the initMoves 
+// list to be equal to the list of moves that are recorded in firestore
+// onMove: (function inside the chessboard) setState() {
+//    send the move to firebase through transaction
+//    enableUserMoves = false;
+// }
 
 class PlayGamePage extends StatefulWidget {
   @override
@@ -11,10 +32,12 @@ class PlayGamePage extends StatefulWidget {
 }
 
 class _PlayGamePageState extends State<PlayGamePage> {
-  ChessBoardController controller;
+  ChessBoardController controller = ChessBoardController();
   List<String> gameMoves = [];
   var flipBoardOnMove = true;
   bool startGame = false;
+  bool isWhite = false;
+  Stream gameMoveStream;
 
   @override
   void initState() {
@@ -41,6 +64,7 @@ class _PlayGamePageState extends State<PlayGamePage> {
               builder: (context, snapshot) {
                 if (gameID != '') {
                   startGame = true;
+                  gameMoveStream = Firestore.instance.collection('games').document(gameID).snapshots();
                 }
                 if (!startGame && snapshot.data != null) {
                   for (DocumentSnapshot doc in snapshot.data.documents) {
@@ -56,22 +80,32 @@ class _PlayGamePageState extends State<PlayGamePage> {
                         });
                       });
                       startGame = true;
+                      gameMoveStream = Firestore.instance.collection('games').document(gameID).snapshots();
                       WidgetsBinding.instance
                           .addPostFrameCallback((_) => Navigator.of(context).pop());
                     } else {
                       // The document exists, which means the challenged person did not accept or decline yet
                       print('waiting');
+                      isWhite = true;
                       WidgetsBinding.instance
                           .addPostFrameCallback((_) => _waitingDialog());
                     }
                   }
                 }
 
-                return ListView(
-                  children: <Widget>[
-                    _buildChessBoard(),
-                    _buildNotationAndOptions(),
-                  ],
+                return StreamBuilder<QuerySnapshot>(
+                  stream: gameMoveStream,
+                  builder: (context, snapshot) {
+                    if(snapshot.hasData) {
+                      
+                    }
+                    return ListView(
+                      children: <Widget>[
+                        _buildChessBoard(),
+                        _buildNotationAndOptions(),
+                      ],
+                    );
+                  }
                 );
               }),
         ),
@@ -96,8 +130,7 @@ class _PlayGamePageState extends State<PlayGamePage> {
             _showDialog();
           },
           chessBoardController: controller,
-          whiteSideTowardsUser:
-              flipBoardOnMove ? gameMoves.length % 2 == 0 ? true : false : true,
+          whiteSideTowardsUser: isWhite,
         ));
   }
 
@@ -106,51 +139,6 @@ class _PlayGamePageState extends State<PlayGamePage> {
       padding: const EdgeInsets.all(8.0),
       child: Column(
         children: <Widget>[
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: <Widget>[
-              Text(
-                "Flip board on move",
-                style: TextStyle(fontSize: 18.0),
-              ),
-              Switch(
-                  value: flipBoardOnMove,
-                  onChanged: (value) {
-                    flipBoardOnMove = value;
-                    setState(() {});
-                  }),
-            ],
-          ),
-          Row(
-            children: <Widget>[
-              Expanded(
-                child: Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: FlatButton(
-                    color: Colors.blue,
-                    textColor: Colors.white,
-                    onPressed: () {
-                      _resetGame();
-                    },
-                    child: Text("Reset game"),
-                  ),
-                ),
-              ),
-              Expanded(
-                child: Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: FlatButton(
-                    color: Colors.blue,
-                    textColor: Colors.white,
-                    onPressed: () {
-                      _undoMove();
-                    },
-                    child: Text("Undo Move"),
-                  ),
-                ),
-              ),
-            ],
-          ),
           Column(
             children: _buildMovesList(),
           )

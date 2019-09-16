@@ -3,6 +3,7 @@ import 'pages/home_page.dart';
 import 'pages/developer_details_page.dart';
 import 'pages/login_page.dart';
 import 'pages/play_game_page.dart';
+import 'pages/play_game_page_test.dart';
 
 void main() => runApp(MyApp());
 
@@ -16,8 +17,8 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.blue,
       ),
       debugShowCheckedModeBanner: false,
-      home: LoginPage(title: "Chess Base",),
-      // home: PlayGamePage(),
+      //home: LoginPage(title: "Chess Base",),
+      home: HomePage(),
       routes: {
         '/home_page': (context) => HomePage(),
         '/login_page': (context) => LoginPage(),

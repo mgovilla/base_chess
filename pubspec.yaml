@@ -17,8 +17,9 @@ environment:
   sdk: ">=2.1.0 <3.0.0"
 
 dependencies:
-  flutter_chess_board: ^0.2.3
-  chess_vectors_flutter: ^1.0.6
+  chess: ">=0.6.5 <1.0.0"
+  chess_vectors_flutter: ">=1.0.6 <2.0.0"
+  scoped_model: ">=1.0.0 <2.0.0"
   flutter_statusbar_manager: ^1.0.2
   url_launcher: ^3.0.3
   http: ^0.12.0+2
@@ -52,9 +53,23 @@ flutter:
   uses-material-design: true
 
   # To add assets to your application, add an assets section, like this:
-  assets:
-    - images/profile_pic.jpeg
+  # assets:
   #  - images/a_dot_ham.jpeg
+
+  assets:
+    - images/chess_board.png
+    - images/brown_board.png
+    - images/2.0x/brown_board.png
+    - images/3.0x/brown_board.png
+    - images/orange_board.png
+    - images/2.0x/orange_board.png
+    - images/3.0x/orange_board.png
+    - images/green_board.png
+    - images/2.0x/green_board.png
+    - images/3.0x/green_board.png
+    - images/dark_brown_board.png
+    - images/2.0x/dark_brown_board.png
+    - images/3.0x/dark_brown_board.png
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.
