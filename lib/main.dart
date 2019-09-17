@@ -18,7 +18,7 @@ class MyApp extends StatelessWidget {
       ),
       debugShowCheckedModeBanner: false,
       //home: LoginPage(title: "Chess Base",),
-      home: HomePage(),
+      home: LoginPage(),
       routes: {
         '/home_page': (context) => HomePage(),
         '/login_page': (context) => LoginPage(),
