@@ -10,7 +10,7 @@ _Known "bug": Users with the same display name will be indistinguishable_
 
 After the user taps someone he/she wants to challenge, a prompt shows up for the time control. There are 3 options: 10|0, 5|5, and 3|2.
 
-![Challenge Screen\(/images/ChallengeScreen.jpg)
+![Challenge Screen](/images/ChallengeScreen.jpg)
 
 After sending the challenge, the user is shown the chess board screen while waiting for the opponent to accept or decline.
 
